@@ -1,10 +1,8 @@
-import React from 'react'
 import prisma from "@/prisma/client";
-import { notFound } from 'next/navigation'
-import { Heading, Flex, Text, Card } from "@radix-ui/themes";
-import IssueStatusBadge from '@/app/components/IssueStatusBadge';
-import ReactMarkdown from 'react-markdown';
-
+import { Box, Grid } from "@radix-ui/themes";
+import { notFound } from "next/navigation";
+import EditIssueButton from './EditIssueButton';
+import IssueDetails from './IssueDetails';
 interface Props {
     params: {id: string}
 }
@@ -14,17 +12,17 @@ const IssueDetailPage = async ({params: {id}}: Props) => {
         where: {id: parseInt(id)}
     })
 
-    if (!issue) return notFound;
+    if (!issue) return notFound();
   return (
-    <div>
-      <Heading>{issue.title}</Heading>
-      <Flex gap="4" my="2">
-        <IssueStatusBadge status={issue.status}/>
-       <Text>{issue.createdAt.toDateString()}      </Text> </Flex>
-       <Card className="prose" mt='4'><ReactMarkdown>{issue.description}</ReactMarkdown></Card>
-      
-    </div>
+    <Grid columns={{ initial: "1", md: "2" }} gap='5'>
+      <Box>
+        <IssueDetails issue={issue} />
+      </Box>
+      <Box>
+        <EditIssueButton issueId={issue.id} />
+      </Box>
+    </Grid>
   );
 }       
-
+export const dynamic = 'force-dynamic';
 export default IssueDetailPage;

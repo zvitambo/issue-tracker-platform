@@ -1,4 +1,4 @@
 {
   "editor.formatOnSave": true,
-  "cSpell.words": ["tailwindcss"]
+  "cSpell.words": ["signin", "signout", "tailwindcss"]
 }
